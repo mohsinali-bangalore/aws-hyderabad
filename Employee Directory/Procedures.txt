@@ -1,0 +1,55 @@
+// We are going to create an Employee Directory Application using Amazon Web Services
+
+// Networking
+1. First, we need to create a VPC (Virtual Private Cloud) which will be our own cloud space on AWS
+	CIDR range is : 10.2.0.0/16
+2. We will create 2 public and 2 private subnets inside our VPC
+3. CIDR range for public IPs are : 10.2.1.0/24 and 10.2.3.0/24
+4. CIDR range for private IPs are : 10.2.2.0/24 and 10.2.4.0/24
+5. We also need to create an Internet Gateway which will be used to route internet traffic to our application
+	Also, attach the IGW to our VPC
+6. We need to create 2 route tables; public and private
+	Public RT will be associated with our public IPS (will also be connected to IGW)
+	Private RT will be associated with private IPs
+7. Create a Security Group with http/https traffic as Inbound rule and all traffic as outbound rule
+
+// Permissions
+8. Go to IAM (Identity and Access Management)
+9. Go to Roles
+	a. Go to Create role
+	b. Select (Trusted entity type) -> AWS service and (Use case) -> EC2 then Next
+	c. Search dynamoDB -> Select AmazonDynamoDBFullAccess
+	d. Search S3 -> Select AmazonS3FullAccess
+	e. Create the Role with name : S3DynamoDBFullAccessRole
+
+// Storage
+10. Create an S3 bucket with name : emp-photo-bucket-src-001
+	create a bucket policy as well
+11. Create a DynamoDB Table with id (string || primary key)
+	Name the table Employees 
+
+// Compute
+12. Will launch an EC2 instance
+	with name : emp-dir-app
+	AMI : Linux AMI 2023
+	Instance type : t2.micro
+	Key-pair : app-key-pair
+	VPC : emp-app-vpc
+	Subnet : PSubnet1
+	Security group : emp-app-SG
+	- Under Advanced detials section
+		choose IAM profile as S3DynamoDBFullAccessRole
+		Under user data -> refer the bash script file
+
+// Monitoring
+13. Go to CloudWatch
+	create a Dashboard to monitor your EC2 CPU Utilization
+	you can even set an event alarm to be notified when CPU Utilization is over certain limit
+
+// Load Balancing
+14. To keep our application up and running with increase in demands, we need ALB (Application Load Balancer)
+15. First create a Launch template from your current instance
+16. create target group using your current instance
+17. create Application Load Balancer and attach the target group
+18. For Scaling, we need to implement Auto Scaling which will automatically provision additional instance when 
+	load is high and decommision when load is low
