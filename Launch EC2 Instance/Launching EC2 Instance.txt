@@ -1,0 +1,15 @@
+1. Launching an EC2 Instance
+1.a) Login into AWS Console using user-id and password
+1.b) Search 'EC2' in the search bar
+1.c) Click on 'Launch Instance'
+1.d) Enter the name for your Instance
+1.e) Choose Amazon Linux AMI
+1.f) Select free tier eligible AMI (Amazon Linux 2 AMI (HVM))
+1.g) Select 64 bit (x86) architecture
+1.h) Select Instance type as 't2.micro'
+1.i) Selecting KeyPair is optional but recommended
+1.j) No need to do anything in under Network Settings
+1.k) No changes required under configure storage
+1.l) Go ahead and click 'Launch Instance' 
+1.m) Scroll down and click 'View all instance'
+SUCCESSFULLY LAUNCHED AN EC2 INSTANCE
